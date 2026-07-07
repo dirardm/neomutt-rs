@@ -94,7 +94,7 @@ smtp_server = "smtp.personal.com"
 - **Vim-style keys** — `j`/`k` navigation, `/` search, `c` compose, `r` reply
 - **Structured logging** — `log`+`env_logger`, `RUST_LOG` filterable
 - **Integration tests** — 7 tests against Greenmail IMAP server
-- **188 tests** — 181 unit + 7 integration, 0 failures
+- **200 tests** — 191 unit + 9 integration, 0 failures
 
 ## Project structure
 

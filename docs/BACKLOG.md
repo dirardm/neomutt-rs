@@ -6,7 +6,6 @@ Verified July 2026 — all items genuinely unimplemented.
 ## IMAP
 
 - [ ] **Native MOVE command.** When async-imap adds MOVE (RFC 6851), switch from COPY+EXPUNGE fallback.
-- [ ] **OAuth2 token auto-refresh.** Detect 401 on IMAP commands and trigger the existing `refresh_access_token` flow automatically.
 - [ ] **IMAP NOTIFY.** Alternative to IDLE (RFC 5465).
 - [ ] **Mailbox rename.** Rename an existing mailbox from the sidebar. Create/delete already supported.
 
@@ -39,7 +38,7 @@ Verified July 2026 — all items genuinely unimplemented.
 
 - [ ] **Draft auto-save.** Periodically save compose state.
 - [ ] **Offline outbox.** Queue sends, flush on reconnect.
-- [ ] **Body and attachment caching.** Schema exists, not yet wired at the fetch site. Store fetched body text and attachment bytes.
+- [ ] **Attachment caching.** Store fetched attachment bytes in cache alongside body text (body text is already cached).
 
 ## Multi-account
 

@@ -59,7 +59,7 @@ Verified against actual code (`HEAD`) — every claim checked directly against t
 | IMAP IDLE | **Working** | RFC 2177, auto poll fallback, re-enter IDLE after fetch |
 | Reconnect/backoff | **Working** | Exponential 1s→30s cap, resets on success |
 | STARTTLS | **Working** | Plain→TLS upgrade before auth, code reviewed |
-| OAuth2/XOAUTH2 | **Working** | Token refresh via RFC 6749 flow, `reqwest`-based, redacted |
+| OAuth2/XOAUTH2 | **Working** | Token refresh via RFC 6749, auto-refreshes on auth failure, `reqwest`-based, mock tested |
 | SMTP TLS | **Working** | `builder_dangerous` removed, regression test enforced |
 
 ### In-TUI Passphrase Prompt
@@ -126,15 +126,15 @@ All `Account`, `ImapConfig`, `SmtpConfig` Debug impls redact passwords, tokens, 
 | `app` | 71 |
 | `cache` | 15 |
 | `config` | 24 |
-| `core` | 10 |
+| `core` | 20 |
 | `mail-store` | 30 |
 | `pgp` | 11 |
 | `search` | 8 |
 | `smtp-client` | 6 |
 | `ui` | 6 |
-| **Subtotal** | **181** |
-| Integration (mail-store) | 7 |
-| **Total** | **188** |
+| **Subtotal** | **191** |
+| Integration (mail-store) | 9 |
+| **Total** | **200** |
 
 0 failures, 0 ignored. All pass reliably. No flaky patterns.
 
@@ -151,7 +151,7 @@ All `Account`, `ImapConfig`, `SmtpConfig` Debug impls redact passwords, tokens, 
 
 ## 5. Code Health
 
-- **Clippy:** 0 correctness warnings. ~57 style warnings (let_unit_value, cloned_ref_to_slice_refs, field_reassign_with_default) — all in test code or cosmetic
+- **Clippy:** 0 correctness warnings. 57 style warnings (let_unit_value, cloned_ref_to_slice_refs, field_reassign_with_default, dead_code) — all cosmetic or in test code
 - **`Result<T, String>`:** zero remaining. All migrated to `thiserror` enums (`ConfigError`, `AppError`, `MailStoreError`)
 - **TODO/FIXME:** zero in source code. All tracked in `docs/BACKLOG.md`
 - **Logging:** `log`+`env_logger`, `RUST_LOG` filterable, millisecond timestamps, zero `eprintln!` remaining
