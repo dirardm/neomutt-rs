@@ -136,7 +136,7 @@ All `Account`, `ImapConfig`, `SmtpConfig` Debug impls redact passwords, tokens, 
 | Integration (mail-store) | 7 |
 | **Total** | **188** |
 
-0 failures, 0 ignored. All pass reliably. No flaky patterns. 7 integration tests against Greenmail (IMAP server).
+0 failures, 0 ignored. All pass reliably. No flaky patterns.
 
 ### High-Risk Path Coverage
 - Cross-account isolation: 4 tests
@@ -145,37 +145,38 @@ All `Account`, `ImapConfig`, `SmtpConfig` Debug impls redact passwords, tokens, 
 - Optimistic flag rollback: server sync failure → refetch
 - SMTP TLS regression: `builder_dangerous_is_not_used` test
 - OAuth2 refresh: mock HTTP test
-- Passphrase prompt: state transition via `apply_event` pattern
+- Passphrase prompt: wired via `sign_unlocked`
 
 ---
 
 ## 5. Code Health
 
-- **Clippy:** 0 production warnings. 3 style warnings in test code only
-- **`Result<T, String>`:** zero remaining. All migrated to `thiserror` enums
+- **Clippy:** 0 correctness warnings. ~57 style warnings (let_unit_value, cloned_ref_to_slice_refs, field_reassign_with_default) — all in test code or cosmetic
+- **`Result<T, String>`:** zero remaining. All migrated to `thiserror` enums (`ConfigError`, `AppError`, `MailStoreError`)
 - **TODO/FIXME:** zero in source code. All tracked in `docs/BACKLOG.md`
-- **Logging:** `log`+`env_logger`, `RUST_LOG` filterable, timestamps, zero `eprintln!` remaining
+- **Logging:** `log`+`env_logger`, `RUST_LOG` filterable, millisecond timestamps, zero `eprintln!` remaining
 
 ---
 
 ## 6. Operational Readiness
 
 ### Documentation
-- `README.md`, `USER_MANUAL.md`, `STATUS.md`, `BACKLOG.md`, `SECURITY.md`, `CURRENT-STATE.md` — all accurate
-- `mail-store/tests/README.md` — integration test setup documented
+- `README.md` — AI-experiment disclosure, features, quick start, crate map
+- `USER_MANUAL.md` — keybindings, config schema, OAuth2, limits, integration tests
+- `STATUS.md` — maturity table, limitations, platform support
+- `BACKLOG.md` — 25 items, all verified against current code
+- `SECURITY.md` — advisory tracking, hardening audit
+- `mail-store/tests/README.md` — integration test setup
 - `ci/start-greenmail.sh` — one-command test server startup
 
 ### Error Messages
-All include operation context. Examples: `"flag sync failed (server rejected, locally removed): {e}"`, `"no public key found for: {addr}"`, `"message exceeds max fetch size ({size} > {max})"`
+All include operation context. Examples: `"flag sync failed (server rejected, locally removed): {e}"`, `"no public key found for: {addr}"`, `"message exceeds max fetch size ({size} > {max})"`.
 
 ### Disk
-2.5 GB (`target/debug/`). `.gitignore` prevents accumulation. `cargo clean` brings it down to ~12 MB.
-
-### BACKLOG
-23 items tracked, all verified against current code as genuinely unimplemented.
+~2.5 GB (`target/debug/`). `.gitignore` prevents accumulation. `cargo clean` brings it to ~12 MB. Git repository: 42 files, 19,494 lines.
 
 ---
 
 ## Overall Rating: Production-candidate
 
-The application is approaching production readiness. All critical gaps (TLS, credential handling, resource limits, structured logging, integration tests, passphrase prompt, OAuth2 refresh) are addressed. The remaining blockers are scope-deepening items (body caching, OAuth2 auto-refresh on expiry, in-TUI passphrase for decrypt operations) rather than missing fundamentals.
+All critical gaps closed: TLS everywhere, credential redaction, PGP zeroization, resource limits, structured logging, integration tests, passphrase prompt, OAuth2 refresh. Remaining scope: body/attachment caching, OAuth2 auto-refresh on 401, in-TUI passphrase for decrypt, async-std migration.
