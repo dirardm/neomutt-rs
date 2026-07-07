@@ -2,11 +2,11 @@
 
 ## Overview
 
-neomutt-rs is a Cargo workspace of 9 crates (~8,400 lines of Rust) built
+neomutt-rs is a Cargo workspace of 9 crates (~7,000 lines of Rust) built
 around a three-task async architecture.  The central design principle is
 **single ownership of mutable state** — every piece of data has exactly one
-writer, communicated via `tokio::sync::mpsc::unbounded_channel`.  No
-`Arc<Mutex<_>>` sprawl.
+writer, communicated via `tokio::sync::mpsc` bounded channels (256/64/2/1)
+with per-channel backpressure policies.  No `Arc<Mutex<_>>` sprawl.
 
 ```
 ┌──────────────┐  ImapEvent  ┌──────────────┐  RenderState  ┌──────────────┐
@@ -50,7 +50,7 @@ writer, communicated via `tokio::sync::mpsc::unbounded_channel`.  No
 | **core** | `mail-parser`, `bitflags`, `rfc2047-decoder`, `html2text` | `Message`, `Envelope`, `Mailbox`, `FlagSet`, `Attachment`, `ThreadNode`, `thread_mailbox()`, `parse_attachments()`, `parse_body_text()`, `parse_html_body()` |
 | **cache** | `rusqlite` (bundled) | `MailboxCache`, `Contact` — messages, uid_validity, contacts |
 | **config** | `toml`, `serde` | `Account`, `ImapSecurity`, `NotificationConfig`, `DownloadConfig`, `load_config()` |
-| **mail-store** | `async-imap`, `tokio`, `async-native-tls`, `tokio-util` | `ImapClient`, `ImapConfig`, `MailboxEntry`, `FetchResult`, `idle_loop()`, `fetch_body()`, `fetch_part()`, `set_flags()`, `expunge()`, `copy_message()`, `move_message()`, `list_mailboxes()`, `ImapEvent` |
+| **mail-store** | `async-imap`, `tokio`, `async-native-tls`, `tokio-util`, `reqwest` | `ImapClient`, `ImapConfig`, `MailboxEntry`, `FetchResult`, `idle_loop()`, `fetch_body()`, `fetch_part()`, `set_flags()`, `expunge()`, `copy_message()`, `move_message()`, `list_mailboxes()`, `ImapEvent`, `refresh_access_token()` |
 | **smtp-client** | `lettre` | `OutgoingMessage`, `FileAttachment`, `send_message()` |
 | **ui** | `ratatui`, `crossterm`, `tokio` | `RenderState`, `Command`, `Mode`, `ComposeState`, `FileEntry`, `selected_uid()` |
 | **pgp** | `sequoia-openpgp` | `encrypt`, `decrypt`, `sign`, `verify`, `unlock_key`, `KeyStore`, `Keyring` |
@@ -112,9 +112,9 @@ Mailbox switch (sidebar):
 |---|---|
 | Language | Rust 1.96 (edition 2024) |
 | Async | tokio (full) |
-| IMAP | async-imap 0.11 via TLS or STARTTLS |
-| IMAP auth | LOGIN or XOAUTH2 |
-| SMTP | lettre 0.11 |
+| IMAP | async-imap 0.11 via TLS, STARTTLS, or Plain (testing) |
+| IMAP auth | LOGIN or XOAUTH2 with automatic token refresh |
+| SMTP | lettre 0.11 via TLS/STARTTLS |
 | TUI | ratatui 0.30 + crossterm 0.29 |
 | DB | rusqlite 0.40 (bundled) |
 | Search | tantivy 0.26 |
@@ -128,6 +128,4 @@ Mailbox switch (sidebar):
 
 ## Testing
 
-118 tests across all crates. No live server required — in-memory databases,
-generated PGP keys, temp directories, fixture `.eml` files. Live tests
-gated behind `IMAP_HOST`.
+200 tests across all crates (191 unit + 9 integration against Greenmail IMAP server). Unit tests use in-memory databases, generated PGP keys, temp directories, and fixture `.eml` files. Integration tests cover connect/list/fetch/flags/copy/move/append/IDLE/OAuth2-refresh against a real IMAP server. No live credentials required.
