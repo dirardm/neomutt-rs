@@ -1,0 +1,26 @@
+[package]
+name = "neomutt-mail-store"
+version = "0.1.0"
+edition = "2024"
+description = "IMAP client for neomutt-rs — connect, list, fetch headers, poll"
+
+[[bin]]
+name = "imap-test"
+path = "src/main.rs"
+
+[dependencies]
+neomutt-core = { path = "../core" }
+neomutt-config = { path = "../config" }
+async-imap = "0.11"
+tokio = { version = "1", features = ["full"] }
+tokio-util = { version = "0.7", features = ["compat"] }
+async-native-tls = "0.5"
+mail-parser = "0.11"
+futures = "0.3"
+thiserror = "2"
+log = "0.4"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+neomutt-smtp-client = { path = "../smtp-client" }

@@ -1,0 +1,12 @@
+[package]
+name = "neomutt-search"
+version = "0.1.0"
+edition = "2024"
+description = "Full-text search via tantivy for neomutt-rs"
+
+[dependencies]
+neomutt-core = { path = "../core" }
+tantivy = "0.26"
+
+[dev-dependencies]
+tempfile = "3"

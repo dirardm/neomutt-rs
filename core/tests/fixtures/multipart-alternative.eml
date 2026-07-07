@@ -1,0 +1,27 @@
+From: "Newsletter" <news@example.org>
+To: user@example.com
+Date: Tue, 20 Feb 2024 14:00:00 +0100
+Subject: February updates
+Message-ID: <20240220140000.0002@example.org>
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+ boundary="----=_Part_42"
+
+------=_Part_42
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+This is the plain text version of the newsletter.  All the updates in one
+place, no HTML needed.
+
+------=_Part_42
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+<body>
+<p>This is the <strong>HTML</strong> version of the newsletter.</p>
+</body>
+</html>
+
+------=_Part_42--

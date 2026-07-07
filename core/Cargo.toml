@@ -1,0 +1,11 @@
+[package]
+name = "neomutt-core"
+version = "0.1.0"
+edition = "2024"
+description = "Domain types for neomutt-rs — Message, Mailbox, Envelope, FlagSet"
+
+[dependencies]
+mail-parser = "0.11"
+bitflags = "2"
+rfc2047-decoder = "1.1"
+html2text = "0.17"

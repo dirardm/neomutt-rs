@@ -1,0 +1,14 @@
+[workspace]
+resolver = "3"
+members = [
+    "core",
+    "cache",
+    "config",
+    "mail-store",
+    "smtp-client",
+    "ui",
+    "app",
+    "pgp",
+    "search",
+]
+

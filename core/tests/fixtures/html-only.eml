@@ -1,0 +1,19 @@
+From: sender@example.com
+To: recipient@example.com
+Date: Fri, 15 Mar 2024 10:00:00 +0000
+Subject: HTML-only message
+Message-ID: <html-only@example.com>
+MIME-Version: 1.0
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+<body>
+<h1>Welcome</h1>
+<p>This is an <strong>HTML-only</strong> message with no text/plain alternative.</p>
+<ul>
+<li>Item one</li>
+<li>Item two</li>
+</ul>
+</body>
+</html>

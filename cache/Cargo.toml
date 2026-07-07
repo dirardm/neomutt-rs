@@ -1,0 +1,9 @@
+[package]
+name = "neomutt-cache"
+version = "0.1.0"
+edition = "2024"
+description = "SQLite-backed local cache for neomutt-rs mailbox state"
+
+[dependencies]
+neomutt-core = { path = "../core" }
+rusqlite = { version = "0.40", features = ["bundled"] }

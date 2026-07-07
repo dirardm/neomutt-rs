@@ -1,0 +1,30 @@
+# Build artifacts
+target/
+
+# Test databases and search indices (tests use tempdir, these shouldn't persist)
+*.db
+*.sqlite
+neomutt-search/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Greenmail test server (downloaded via ci/start-greenmail.sh)
+ci/*.jar
+
+# Env / secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Temp files
+*.tmp
+/tmp/
