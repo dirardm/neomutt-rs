@@ -69,8 +69,7 @@ cargo audit     → 0 vulnerabilities, 1 warning (async-std unmaintained)
 ## Current limitations
 
 - **MOVE uses fallback.** async-imap 0.11 lacks MOVE. COPY+STORE+EXPUNGE fallback.
-- **No OAuth2 token auto-refresh on 401.** Refresh flow exists but not triggered automatically.
-- **No body/attachment caching.** Cache schema exists, writes not yet wired.
+- **No attachment caching.** Body text is cached and read from cache on startup; attachment bytes are not yet persisted.
 - **No rich HTML in TUI.** HTML converted to plaintext; external browser for original.
 - **async-std transitive dep.** From async-imap. `mxr-async-imap` 0.10 has `runtime-tokio` but is API-incompatible.
 - **Mailbox rename not implemented.** Create/delete supported; rename is not.
