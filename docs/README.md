@@ -18,7 +18,7 @@ The goal was to answer: _can a fully-AI-prompted workflow produce a real, functi
 
 This is a **beta-stage experiment**, not a production-ready mail client. See [STATUS.md](STATUS.md) for a detailed maturity assessment. **Do not use this as a daily driver for anything sensitive without independent review.** The codebase handles credentials, PGP keys, and network connections — the security-relevant surface area is real. While extensive hardening has been applied (TLS everywhere, credential redaction, zeroization, path-traversal protection, bounded channels, storage limits, structured logging, integration tests), this project has never been audited by a human security reviewer.
 
-**Usage is at your own risk. No warranty is given, express or implied.**
+**Usage is at your own risk. No warranty is given, expressed or implied.**
 
 ### Contributors
 
